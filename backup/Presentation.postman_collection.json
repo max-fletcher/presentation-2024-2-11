@@ -1,0 +1,101 @@
+{
+	"info": {
+		"_postman_id": "71f5bd1e-586c-4d78-8c1a-63b0afa830dc",
+		"name": "Presentation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32409259"
+	},
+	"item": [
+		{
+			"name": "Method Chaining",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/method-chaining",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"method-chaining"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Using Service Class",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"sum\" : 0\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/using-service-class",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"using-service-class"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate User With Try Catch Copy",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"Jensen Rutherford\",\r\n    \"email\" : \"john_smith@mail.com\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/validate-with-try-catch/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"validate-with-try-catch",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
