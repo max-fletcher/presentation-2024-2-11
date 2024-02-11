@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\User;
 use App\Examples\Examples;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use App\Http\Services\ExampleService;
 use App\Exceptions\api\v1\CustomException;
 use App\Exceptions\api\v1\NotFoundException;
@@ -31,7 +33,25 @@ class UserController extends Controller
     return response()->json(['data' => $studentInfo]);
   }
 
-  // SERVICE CLASS
+  // THE DANGER WITH PASSING $request->all();
+  public function requestAll(Request $request, string $id) : JsonResponse
+  {
+    $valdiated = $request->validate([
+      'amount' => ['required', 'numeric'],
+    ]);
+
+    // dd($valdiated);
+    // dd($request->all());
+
+    Transaction::where('id', $id)->update($request->all());
+
+    $transaction = Transaction::where('id', $id)->first();
+
+    return response()->json(['data' => $transaction]);
+  }
+
+
+  // SERVICE CLASS & QUERY SCOPES & ARRAYS & SELECT STATEMENTS
   public function usingServiceClass(Request $request) : JsonResponse
   {
     $request->validate([
@@ -66,10 +86,55 @@ class UserController extends Controller
         $sum *= $i;
       }
 
-    return response()->json(['data' => $sum, 'user' => $user, 'size' => $size]);
+    return response()->json(['data' => $sum, 'size' => $size, 'user' => $user]);
   }
 
-  // VALIDATION WITH TRY-CATCH. THE DILEMMA BEING, I DON'T WANT TO USE Rule::exists BECAUSE I AM FETCHING $user AWYWAY
+  // JOINS AND SUBQUERY
+  public function joinsVsSubquery() : JsonResponse
+  {
+    // FETCHING DATA
+
+    // QUERY BUILDER
+    // $users = DB::table('users')->join('accounts', 'users.id', '=', 'accounts.user_id')->select('users.*', 'accounts.remaining_balance')->get();
+
+    // MODEL WITH JOIN
+    // $users = User::join('accounts', 'users.id', '=', 'accounts.user_id')->select('users.*', 'accounts.remaining_balance')->get();
+
+    // MODEL WITH EAGER LOADING
+    // $users = User::with([
+    //                 'account' => function($q){
+    //                   return $q->select('id', 'remaining_balance');
+    //                 }
+    //               ])->get();
+
+
+
+    // MAKING A QUERY WITH IMPOSING CONDITIN ON CHILD TABLE
+
+    // QUERY BUILDER WITH WHEREBETWEEN
+    $users = DB::table('users')
+              ->join('accounts', 'users.id', '=', 'accounts.user_id')
+              ->select('users.*', 'accounts.*')
+              ->whereBetween('accounts.remaining_balance', [2000, 5000])
+              ->get();
+
+    // QUERY BUILDER WITH SUBQUERY
+    // $users = DB::table('users')
+    //           ->whereRaw('exists (SELECT * FROM accounts WHERE users.id = accounts.user_id AND remaining_balance BETWEEN 2000 AND 5000)')
+    //           ->get();
+
+    // MODEL WITH SIMPLE WHEREHAS
+    // $users = User::whereHas(
+    //                 'account', function($q){
+    //                   return $q->whereBetween('accounts.remaining_balance', [2000, 5000]);
+    //                 }
+    //               )->get();
+
+    return response()->json(['data' => $users]);
+  }
+
+
+  // VALIDATION WITH TRY-CATCH AND CUSTOM EXCEPTIONS. THE DILEMMA BEING, I DON'T WANT TO USE Rule::exists BECAUSE I AM FETCHING $user AWYWAY
   // SO THAT IS ONE TOO MANY QUERIES(i.e IF VALIDATOR HAS TOO MANY Rule::exists)
   public function validateWithTryCatch(Request $request, string $id) : JsonResponse
   {

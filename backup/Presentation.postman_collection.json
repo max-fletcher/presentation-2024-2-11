@@ -27,6 +27,56 @@
 			"response": []
 		},
 		{
+			"name": "Joins Vs Subquery",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/joins-vs-subquery",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"joins-vs-subquery"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "The Danger of Request All",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"amount\" : 100\r\n    // \"is_paid\" : 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/request-all/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"request-all",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Using Service Class",
 			"request": {
 				"method": "POST",

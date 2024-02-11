@@ -15,7 +15,14 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->decimal('remaining_balance', 10, 4, true);
-            $table->boolean('frozen');
+            $table->string('dummy_string1');
+            $table->string('dummy_string2');
+            $table->string('dummy_string3');
+            $table->string('dummy_string4');
+            $table->string('dummy_string5');
+            $table->string('dummy_string6');
+            $table->string('dummy_string7');
+            $table->string('dummy_string8');
             $table->timestamps();
         });
     }

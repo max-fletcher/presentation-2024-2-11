@@ -21,6 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/method-chaining', [UserController::class, 'getStudent']);
 
+Route::patch('/request-all/{id}', [UserController::class, 'requestAll']);
+
 Route::post('/using-service-class', [UserController::class, 'usingServiceClass']);
+
+Route::get('/joins-vs-subquery', [UserController::class, 'joinsVsSubquery']);
 
 Route::patch('/validate-with-try-catch/{id}', [UserController::class, 'validateWithTryCatch']);
